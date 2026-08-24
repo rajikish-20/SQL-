@@ -1,0 +1,64 @@
+Day-1
+Data: collection of raw facts, figures, symbol
+it is meaningless and unprocessed
+Information : the data is prosessed or meaningfull data 
+Ex : stdid = 101;
+File management system(FMS) : the data is stored and managed 
+Key function of FMS:
+1.File Create
+2.File Open
+3.File Delete
+4.File Read
+5.Share Data
+6.to provide access
+Drawbacks of FMS:
+1. data inconsistency : updating
+2.less security
+3.data redundancy : duplicate
+4.backup/recovery
+5.data manipulation
+To Overcome the drawbacks of FMS the Databases are introduced
+Database :
+.........
+database is a tool it is used to store data.
+Management Systems :
+to manage data, like retrive, update, delete data
+DBMS :
+1.DBMs stands for database management system.
+2.It is a software
+3.The main purpose of dbms is used to store data in permenatally, and manage data.
+Advantages of DBMS :
+1.Reduse Dataredundency
+2.to improve more security
+3.to improve data inconsistency
+4.possible to backup/recovery the data
+5.to maintain readability
+Types of DBMS:
+1.nosql dbms:
+the data is stored into the unstructured format.
+EX : mongodb, postgrace sql
+2.RDBMS :
+It is stands for relational database management system.
+In RDBMS the data stored into rows and colums(table format).
+It is stored into the structured format.
+EX : MySQL, oracle..etc
+MYSQL:
+------
+It is database.
+In MySQL data is stored into the table format.
+In MySQL provide relation ships.
+Easy to maintain data.
+It is open source database.
+It is free of cost.
+Field/coloum :
+EX :studentid=101 where as studentid is the field
+record/row : collection of feild
+Ex : stuid=101,sname='rahul',cource='da';
+table : collection of records and fields.
+What is the difference between and MySQL
+query :
+for connecting use :mysql -u root -p
+for showing databases : show databases;
+for creating new database : create database name; (EX create database da22;)
+for checking in which database we are working : select database();
+for deleting : drop database name; (EX drop databae da22;)

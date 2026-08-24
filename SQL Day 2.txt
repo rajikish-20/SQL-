@@ -1,0 +1,32 @@
+Day 2
+Data Model:
+data model is way of organizion the data and representing the data,
+how to store data, how to manipulate the data into DBMS
+Types of data model:
+1.Hierarachial data model:
+the organized data into a tree like structure(parent and child)
+every child contain only one parent.
+every parent can have multiple childs.
+In that model easy retrive and maintain the data.
+In that above model not comfortable for maintain complex relationships.
+EX : institute -----cource-------students
+Network data model:
+The data is organized into nodes(entities) and edges(relationships)
+In that mode one parent contain many childs.
+One child can have many parent.
+It flexible for compare to hierarical model.
+EX : one student can take multiple cource
+each cource learn multiple students.
+Object oriented data model :
+All data represented at objects.
+Every object can have 2 things(properties)
+Properties and behaviors.
+
+Relational data model:
+The data is stored into a table with column(fields) and rows(records/tuple/entry).
+Ex : student : stdid, sname..etc
+
+Data Model Levels:
+1.conceptual level (what we need)
+2.Logical level(to design)
+3.Physical level(implementation)

@@ -1,0 +1,68 @@
+Day 3
+Introduction of SQL:
+^^^^^^^^^^^^^^^^^^
+sql stands for structured query language.
+It is used to communicate with database such as MySQL, oracle, postgrace
+Using sql language :
+To create and delete structure in database
+To insert , update, and delete data.
+Easy to retrive the data into a database.
+To provide the control access.
+
+SQL language is divided into different categories(sub):
+1.DDL
+DDL stands for data definition language. it used to create manupaliate database . such as tables, views, database, and sceme
+i)create
+ii)alter
+iii)drop (it remove total structure)
+iv)truncate  (it is used only remove data not structure)
+v)rename
+It only perform on struture 
+
+2.DML
+DML stands for data manipulation language. it is used to add, update and delete the data
+i)insert (new data insert)  
+ii)update  (to modify the insert data) 
+iii)delete  (to delete )
+It perform on data
+
+3.TCL
+TCL stands for tranction control language. it is used to tranctions
+i)commit; 
+ii)rollback;
+iii)savepoint;(check points after rollback)
+
+4.DQL
+DQL stands for data query language. it is used to retrive the data
+i)select(used to retrive the data)
+
+5.DCL
+DCL stands for data control language. it is used to provide control access for database
+i)grant  (gives the permission to read write..etc)
+ii)revoke 
+
+Data types in SQL :
+1.Numeric data types
+tinyint : it store very tiny amount of data 0&1
+smallint :
+mediumint
+int
+bigint
+float
+decimal(p,s) : total number of digits before decimal point, total number of digits after decimal points
+Boolean : true or 1/false or 0
+ 
+2.String data types
+char() : It contain fixed length
+EX char(2);
+varchar() : it contain variable length
+EX varchar(20);
+text 
+Enum : it is select only one value in a pre defined list.
+Enum ('java' ,'phyton', 'da');
+
+3.date and Time types
+date : 'yyyy-mm-dd'
+time : 'hh-mm-Ss'
+date and time : 'yyyy-mm-dd hh-mm-ss
+timestamp : current time
