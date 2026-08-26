@@ -1,0 +1,13 @@
+Day 13
+self join: a table join with itself.
+-> select e.eid from employee e join employee m
+   on e.m_id =m.e_id;
+
+equi joins: to join one or more tables using = operator.
+->select colimn1,column2 from table name join table name on condition.
+-> select e.*,d.* from employee e join department d
+on e.dept_id=d.dept_id;
+
+non equi joins:
+to join the two or more tables using other than = operator such as using >,<,between..etc
+
