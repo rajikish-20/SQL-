@@ -1,0 +1,192 @@
+SQL Day 16
+Views :
+view is a virtual table or logical table.
+view do not store any data, it stores select SQL query
+views are created using select query
+-> Advantages of  views:
+security.
+to avoid un necessary columns in a table.
+simplify complex queries.
+to maintain readability.
+Types:
+1. simple view:
+	is created from one table, doesn't contain any complex operations like joins, aggregate functions, clauses(group by, having)		
+2. complex view:  
+	the view is created from one or more than one table, does contain joins, aggregate functions, clauses.
+Syntax:
+create view view_name select query;
+simple view syntax:
+create view view_name select query;
+complex view syntax:
+create view view_name select query;(select query using joins, clauses, aggregate functions
+to know table or view:
+->show full tables where table_type = 'VIEW';
+show full tables where table_type='VIEW';
++---------------------+------------+
+| Tables_in_companydb | Table_type |
++---------------------+------------+
+| emp_avgsal          | VIEW       |
+| emp_view            | VIEW       |
++---------------------+------------+
+->create view emp_view as select emp_id, emp_name, salary from employee;
+->create view emp_view as select emp_id,emp_name,salary from employee;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into emp_view(emp_id,emp_name,salary)
+    -> values(111,'sam',9000000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from emp_view;
++--------+----------+------------+
+| emp_id | emp_name | salary     |
++--------+----------+------------+
+|    101 | Rahul    |   50000.00 |
+|    102 | Kiran    |   45000.00 |
+|    103 | Anita    |   65000.00 |
+|    104 | Priya    |   70000.00 |
+|    105 | Sneha    |   80000.00 |
+|    106 | Vijay    |   55000.00 |
+|    107 | Ajay     |   60000.00 |
+|    108 | Ravi     |   40000.00 |
+|    109 | Meena    |   75000.00 |
+|    110 | Arun     |   35000.00 |
+|    111 | sam      | 9000000.00 |
++--------+----------+------------+
+if simple view is created and need to modify this, then the table is also changed.
+-> insert into emp_view(emp_id,emp_name,salary)
+   values(111,'sam',900000);
+->select * from emp_view;
+complex view:
+-> create view emp_avgsal as select dept_id, avg(salary) from employee group by dept_id;
+->show full tables where table_type = 'VIEW';
++---------------------+------------+
+| Tables_in_companydb | Table_type |
++---------------------+------------+
+| emp_avgsal          | VIEW       |
+| emp_maxsal          | VIEW       |
+| emp_view            | VIEW       |
++---------------------+------------+
+-> select * from emp_avgsal;
+->create view max_sal as select dept_id, dept_name, max(sal) from employee group by dept_id;
+->select * from emp_avgsal;
++---------+----------------+
+| dept_id | avg(salary)    |
++---------+----------------+
+|    NULL | 9000000.000000 |
+|      10 |   47500.000000 |
+|      20 |   71666.666667 |
+|      30 |   43333.333333 |
+|      40 |   67500.000000 |
++---------+----------------+
+->select d.dept_id,d.dept_name,max(salary) from employee e
+join department d on e.dept_id = d.dept_id 
+group by dept_id;
++---------+-----------+-------------+
+| dept_id | dept_name | max(salary) |
++---------+-----------+-------------+
+|      10 | HR        |    50000.00 |
+|      20 | IT        |    80000.00 |
+|      30 | Finance   |    55000.00 |
+|      40 | Sales     |    75000.00 |
++---------+-----------+-------------+
+->create view emp_maxsalary as
+    -> select d.dept_id,d.dept_name,max(salary) from employee e
+    -> join department d on e.dept_id=d.dept_id
+    -> group by dept_id;
+->mysql> show full tables where table_type = 'VIEW';
++---------------------+------------+
+| Tables_in_companydb | Table_type |
++---------------------+------------+
+| emp_avgsal          | VIEW       |
+| emp_maxsal          | VIEW       |
+| emp_maxsalary       | VIEW       |
+| emp_view            | VIEW       |
++---------------------+------------+
+->mysql> select * from emp_maxsalary;
++---------+-----------+-------------+
+| dept_id | dept_name | max(salary) |
++---------+-----------+-------------+
+|      10 | HR        |    50000.00 |
+|      20 | IT        |    80000.00 |
+|      30 | Finance   |    55000.00 |
+|      40 | Sales     |    75000.00 |
++---------+-----------+-------------+
+->select * from emp_maxsalary where dept_name='HR';
++---------+-----------+-------------+
+| dept_id | dept_name | max(salary) |
++---------+-----------+-------------+
+|      10 | HR        |    50000.00 |
++---------+-----------+-------------+
+->drop view emp_maxsal;
+Query OK, 0 rows affected (0.01 sec)
+
+->mysql> show full tables where table_type = 'VIEW';
++---------------------+------------+
+| Tables_in_companydb | Table_type |
++---------------------+------------+
+| emp_avgsal          | VIEW       |
+| emp_maxsalary       | VIEW       |
+| emp_view            | VIEW       |
++---------------------+------------+
+->alter view emp_view as select dept_id from employee;
+->mysql> select * from emp_view;
++---------+
+| dept_id |
++---------+
+|    NULL |
+|      10 |
+|      10 |
+|      20 |
+|      20 |
+|      20 |
+|      30 |
+|      30 |
+|      30 |
+|      40 |
+|      40 |
++---------+
+->alter view emp_view as select emp_name,salary,dept_id from employee;
+->mysql> select * from emp_view;
++----------+------------+---------+
+| emp_name | salary     | dept_id |
++----------+------------+---------+
+| Rahul    |   50000.00 |      10 |
+| Kiran    |   45000.00 |      10 |
+| Anita    |   65000.00 |      20 |
+| Priya    |   70000.00 |      20 |
+| Sneha    |   80000.00 |      20 |
+| Vijay    |   55000.00 |      30 |
+| Ajay     |   60000.00 |      40 |
+| Ravi     |   40000.00 |      30 |
+| Meena    |   75000.00 |      40 |
+| Arun     |   35000.00 |      30 |
+| sam      | 9000000.00 |    NULL |
++----------+------------+---------+
+->create or replace view emp_view as select emp_name,salary,dept_id from employee;
+->mysql> select * from emp_view;
++----------+------------+---------+
+| emp_name | salary     | dept_id |
++----------+------------+---------+
+| Rahul    |   50000.00 |      10 |
+| Kiran    |   45000.00 |      10 |
+| Anita    |   65000.00 |      20 |
+| Priya    |   70000.00 |      20 |
+| Sneha    |   80000.00 |      20 |
+| Vijay    |   55000.00 |      30 |
+| Ajay     |   60000.00 |      40 |
+| Ravi     |   40000.00 |      30 |
+| Meena    |   75000.00 |      40 |
+| Arun     |   35000.00 |      30 |
+| sam      | 9000000.00 |    NULL |
++----------+------------+---------+
+
+
+
+
+
+
+
+
+
+
+
