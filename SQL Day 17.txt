@@ -1,0 +1,283 @@
+Day 17
+TCL Commands:
+stands for Transaction control language
+TCL commands :
+-> commit
+-> rollback
+-> save point
+-> Transaction: is a group of SQL operations. The group of SQL operations represent a single unit.
+-> Transaction states : begin -> partially committed -> committed -> terminated -> abort-> fail
+
+mysql> begin;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update employee set salary = salary - 20000 where
+    -> emp_name = 'Rahul';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from employee;
++--------+----------+------------+---------+------------+
+| emp_id | emp_name | salary     | dept_id | experience |
++--------+----------+------------+---------+------------+
+|    101 | Rahul    |   30000.00 |      10 |          3 |
+|    102 | Kiran    |   45000.00 |      10 |          2 |
+|    103 | Anita    |   65000.00 |      20 |          5 |
+|    104 | Priya    |   70000.00 |      20 |          6 |
+|    105 | Sneha    |   80000.00 |      20 |          8 |
+|    106 | Vijay    |   55000.00 |      30 |          4 |
+|    107 | Ajay     |   60000.00 |      40 |          5 |
+|    108 | Ravi     |   40000.00 |      30 |          1 |
+|    109 | Meena    |   75000.00 |      40 |          7 |
+|    110 | Arun     |   35000.00 |      30 |          1 |
+|    111 | sam      | 9000000.00 |    NULL |       NULL |
++--------+----------+------------+---------+------------+
+mysql> rollback;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from employee;
++--------+----------+------------+---------+------------+
+| emp_id | emp_name | salary     | dept_id | experience |
++--------+----------+------------+---------+------------+
+|    101 | Rahul    |   50000.00 |      10 |          3 |
+|    102 | Kiran    |   45000.00 |      10 |          2 |
+|    103 | Anita    |   65000.00 |      20 |          5 |
+|    104 | Priya    |   70000.00 |      20 |          6 |
+|    105 | Sneha    |   80000.00 |      20 |          8 |
+|    106 | Vijay    |   55000.00 |      30 |          4 |
+|    107 | Ajay     |   60000.00 |      40 |          5 |
+|    108 | Ravi     |   40000.00 |      30 |          1 |
+|    109 | Meena    |   75000.00 |      40 |          7 |
+|    110 | Arun     |   35000.00 |      30 |          1 |
+|    111 | sam      | 9000000.00 |    NULL |       NULL |
++--------+----------+------------+---------+------------+
+11 rows in set (0.00 sec)
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update employee set salary = salary - 20000
+    -> where emp_name = 'Rahul';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set salary = salary + 20000
+    -> where emp_name = 'Kiran';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++--------+----------+------------+---------+------------+
+| emp_id | emp_name | salary     | dept_id | experience |
++--------+----------+------------+---------+------------+
+|    101 | Rahul    |   30000.00 |      10 |          3 |
+|    102 | Kiran    |   65000.00 |      10 |          2 |
+|    103 | Anita    |   65000.00 |      20 |          5 |
+|    104 | Priya    |   70000.00 |      20 |          6 |
+|    105 | Sneha    |   80000.00 |      20 |          8 |
+|    106 | Vijay    |   55000.00 |      30 |          4 |
+|    107 | Ajay     |   60000.00 |      40 |          5 |
+|    108 | Ravi     |   40000.00 |      30 |          1 |
+|    109 | Meena    |   75000.00 |      40 |          7 |
+|    110 | Arun     |   35000.00 |      30 |          1 |
+|    111 | sam      | 9000000.00 |    NULL |       NULL |
++--------+----------+------------+---------+------------+
+
+mysql> commit;
+Query OK, 0 rows affected (0.01 sec)
+
+-> we cannot rollback to previous values after commit.
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update employee set salary = salary - 20000
+    -> where emp_name = 'Kiran';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> savepoint sp1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update employee set salary = salary + 20000
+    -> where emp_name = 'Rahul';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> rollback to sp1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update employee set salary = salary + 20000
+    -> where emp_name = 'Rahul';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++--------+----------+------------+---------+------------+
+| emp_id | emp_name | salary     | dept_id | experience |
++--------+----------+------------+---------+------------+
+|    101 | Rahul    |   50000.00 |      10 |          3 |
+|    102 | Kiran    |   45000.00 |      10 |          2 |
+|    103 | Anita    |   65000.00 |      20 |          5 |
+|    104 | Priya    |   70000.00 |      20 |          6 |
+|    105 | Sneha    |   80000.00 |      20 |          8 |
+|    106 | Vijay    |   55000.00 |      30 |          4 |
+|    107 | Ajay     |   60000.00 |      40 |          5 |
+|    108 | Ravi     |   40000.00 |      30 |          1 |
+|    109 | Meena    |   75000.00 |      40 |          7 |
+|    110 | Arun     |   35000.00 |      30 |          1 |
+|    111 | sam      | 9000000.00 |    NULL |       NULL |
++--------+----------+------------+---------+------------+
+mysql> rollback to sp1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from employee;
++--------+----------+------------+---------+------------+
+| emp_id | emp_name | salary     | dept_id | experience |
++--------+----------+------------+---------+------------+
+|    101 | Rahul    |   30000.00 |      10 |          3 |
+|    102 | Kiran    |   45000.00 |      10 |          2 |
+|    103 | Anita    |   65000.00 |      20 |          5 |
+|    104 | Priya    |   70000.00 |      20 |          6 |
+|    105 | Sneha    |   80000.00 |      20 |          8 |
+|    106 | Vijay    |   55000.00 |      30 |          4 |
+|    107 | Ajay     |   60000.00 |      40 |          5 |
+|    108 | Ravi     |   40000.00 |      30 |          1 |
+|    109 | Meena    |   75000.00 |      40 |          7 |
+|    110 | Arun     |   35000.00 |      30 |          1 |
+|    111 | sam      | 9000000.00 |    NULL |       NULL |
++--------+----------+------------+---------+------------+
+
+-> ACID properties:
+Every transaction must follow acid properties
+  A stands for atomicity (either all or non)
+  C stands for consistency
+  I stands for isolation
+  D stands for durability
+
+-> Log:
+-> Log is a record.
+-> The transaction should follow the different log
+   1. undo log 
+	stores old values, purpose is to rollback to change.
+   2. redo log
+	it used to read operations.
+   3. binary log
+	stores history of transactions.
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update employee set salary = salary + 5000 where emp_id = 101;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set salary = salary * 1.10 where emp_id = 101;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> rollback;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update employee set salary = salary - 5000 where emp_id = 101;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set salary = salary + 5000 where emp_id = 102;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update employee set salary = salary + 5000 where emp_id = 101;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> savepoint s2;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update employee set salary = salary + 5000 where emp_id = 102;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> savepoint s2;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update employee set salary = salary + 5000 where emp_id = 101;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> savepoint s2;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update employee set salary = salary + 3000 where emp_id = 102;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> savepoint s3;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> rollback to savepoint s2;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select @@autocommit;
++--------------+
+| @@autocommit |
++--------------+
+|            1 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> set @@autocommit = 0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select @@autocommit;
++--------------+
+| @@autocommit |
++--------------+
+|            0 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> update employee set salary = salary + 5000 where emp_id = 101;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> commit;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> update employee set salary = salary + 5000 where emp_id = 101;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> rollback;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from employee;
++--------+----------+------------+---------+------------+
+| emp_id | emp_name | salary     | dept_id | experience |
++--------+----------+------------+---------+------------+
+|    101 | Rahul    |   40000.00 |      10 |          3 |
+|    102 | Kiran    |   55000.00 |      10 |          2 |
+|    103 | Anita    |   65000.00 |      20 |          5 |
+|    104 | Priya    |   70000.00 |      20 |          6 |
+|    105 | Sneha    |   80000.00 |      20 |          8 |
+|    106 | Vijay    |   55000.00 |      30 |          4 |
+|    107 | Ajay     |   60000.00 |      40 |          5 |
+|    108 | Ravi     |   40000.00 |      30 |          1 |
+|    109 | Meena    |   75000.00 |      40 |          7 |
+|    110 | Arun     |   35000.00 |      30 |          1 |
+|    111 | sam      | 9000000.00 |    NULL |       NULL |
++--------+----------+------------+---------+------------+
+
+
+
+
+
+
+
